@@ -1,5 +1,5 @@
 import './App.css'
-import MyForm from './components/MyForm'
+import MyForm from './components/MyForm.jsx'
 function App() {
 
   return (
