@@ -1,5 +1,5 @@
 import { Select, Space, Form, Input } from 'antd';
-import { RiExchangeLine } from "react-icons/ri";
+import { RiBitCoinLine } from "react-icons/ri";
 import { useState, useEffect } from 'react'
 import st from './MyForm.module.css'
 import axios from 'axios';
@@ -43,6 +43,7 @@ const MyForm = () => {
          <Form className={st.formBox}>
             <Input
                className={st.input}
+               placeholder='Enter amount'
                type='text'
                value={inputValue}
                onChange={(event) => setInputValue(event.target.value)} />
@@ -62,7 +63,7 @@ const MyForm = () => {
                   </Space>
                )}
             />
-            <RiExchangeLine className={st.exchangeImg} />
+            <RiBitCoinLine className={st.exchangeImg} />
             <Input
                className={st.input}
                value={coinExchanger((+inputValue), coinA?.price, coinB?.price)}
@@ -73,12 +74,12 @@ const MyForm = () => {
                placeholder="select coin"
                optionLabelProp="label"
                options={data.map((coin) => ({
-                  label: coin.name,
+                  label: coin.symbol,
                   value: coin.id,
                   icon: coin.icon,
                }))}
                optionRender={(option) => (
-                  <Space>
+                  <Space className={st.space}>
                      <img className={st.img} src={option.data.icon} />{option.data.label}
                   </Space>
                )}
