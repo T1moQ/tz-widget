@@ -5,9 +5,16 @@ import st from './MyForm.module.css'
 import axios from 'axios';
 
 
+function coinExchanger(value, priceA, priceB) {
+   const totalPrice = value * priceA
+   const priceThatCoin = totalPrice / priceB
+   return priceThatCoin
+}
+
 const MyForm = () => {
    const [data, setData] = useState([])
-   const [coin, setCoin] = useState(null)
+   const [coinA, setCoinA] = useState(null)
+   const [coinB, setCoinB] = useState(null)
    const [inputValue, setInputValue] = useState('')
 
    useEffect(() => {
@@ -41,7 +48,7 @@ const MyForm = () => {
                onChange={(event) => setInputValue(event.target.value)} />
             <Select
                className={st.select}
-               onSelect={(v) => setCoin(data.find((c) => c.id === v))}
+               onSelect={(v) => setCoinA(data.find((c) => c.id === v))}
                placeholder="select coin"
                optionLabelProp="label"
                options={data.map((coin) => ({
@@ -58,12 +65,11 @@ const MyForm = () => {
             <RiExchangeLine className={st.exchangeImg} />
             <Input
                className={st.input}
-               value={(+inputValue) * coin?.priceBtc}
+               value={coinExchanger((+inputValue), coinA?.price, coinB?.price)}
             />
             <Select
                className={st.select}
-               disabled
-               defaultValue={'bitcoin'}
+               onSelect={(v) => setCoinB(data.find((c) => c.id === v))}
                placeholder="select coin"
                optionLabelProp="label"
                options={data.map((coin) => ({
