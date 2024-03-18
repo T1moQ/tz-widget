@@ -1,20 +1,32 @@
 import { Select, Space, Form, Input } from 'antd';
 import { RiBitCoinLine } from "react-icons/ri";
-import { useState, useEffect } from 'react'
+import { useState, useEffect, FC } from 'react'
 import st from './MyForm.module.css'
 import axios from 'axios';
 
+type TypeData = {
+   id?: string,
+   icon: string,
+   name: string,
+   symbol: string,
+   price: number
+}
 
-function coinExchanger(value, priceA, priceB) {
+type TypeCoin = {
+   id: string,
+   price: number,
+}
+
+function coinExchanger(value: number, priceA: number, priceB: number) {
    const totalPrice = value * priceA
    const priceThatCoin = totalPrice / priceB
    return priceThatCoin
 }
 
-const MyForm = () => {
-   const [data, setData] = useState([])
-   const [coinA, setCoinA] = useState(null)
-   const [coinB, setCoinB] = useState(null)
+const MyForm: FC = () => {
+   const [data, setData] = useState<TypeData[]>([])
+   const [coinA, setCoinA] = useState<TypeCoin>({ id: '', price: 0 })
+   const [coinB, setCoinB] = useState<TypeCoin>({ id: '', price: 0 })
    const [inputValue, setInputValue] = useState('')
 
    useEffect(() => {
@@ -37,6 +49,8 @@ const MyForm = () => {
             console.error(error);
          });
    }, [])
+
+   console.log(coinA)
 
    return (
       <>
@@ -66,7 +80,7 @@ const MyForm = () => {
             <RiBitCoinLine className={st.exchangeImg} />
             <Input
                className={st.input}
-               value={coinExchanger((+inputValue), coinA?.price, coinB?.price)}
+               value={coinExchanger((+inputValue), coinA.price, coinB?.price)}
             />
             <Select
                className={st.select}
