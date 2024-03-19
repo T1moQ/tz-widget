@@ -2,16 +2,15 @@ import { useState, FC } from 'react'
 import { Form, Input } from 'antd';
 import { RiBitCoinLine } from "react-icons/ri";
 import st from './MyForm.module.css'
-import MySelect from './MySelect';
-import { TypeCoin } from '../types/types'
-import { coinExchanger } from '../utils/utils'
-import { useGetBTC } from '../api/useGetBTC'
+import MySelect from '../select/MySelect';
+import { TypeCoin } from '../../types/types'
+import { coinExchanger } from '../../utils/utils'
+import { useGetBTC } from '../../api/useGetBTC'
 
 const MyForm: FC = () => {
    const [coinA, setCoinA] = useState<TypeCoin | null>(null)
    const [coinB, setCoinB] = useState<TypeCoin | null>(null)
    const [inputValue, setInputValue] = useState('')
-
    const { data, isError, isLoading } = useGetBTC()
 
    return (

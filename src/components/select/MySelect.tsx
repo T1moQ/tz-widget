@@ -1,6 +1,6 @@
 import { Select, Space } from 'antd'
 import st from './MySelect.module.css'
-import { TypeData } from '../types/types'
+import { TypeData } from '../../types/types'
 
 const MySelect = ({ data, onSelect }: { data: TypeData[], onSelect: (v: string) => void }) => {
    return (
