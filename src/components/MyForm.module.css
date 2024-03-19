@@ -8,15 +8,6 @@
    column-gap: 15px;
 }
 
-.img {
-   width: 50%;
-}
-
-.select {
-   width: 30%;
-   height: 50px;
-}
-
 .input {
    width: 50%;
    font-size: larger;

@@ -1,27 +1,11 @@
 import { useState, useEffect, FC } from 'react'
-import { Select, Space, Form, Input } from 'antd';
+import { Form, Input } from 'antd';
 import { RiBitCoinLine } from "react-icons/ri";
 import axios from 'axios';
 import st from './MyForm.module.css'
-
-type TypeData = {
-   id: string,
-   icon: string,
-   name: string,
-   symbol: string,
-   price: number
-}
-
-type TypeCoin = {
-   id: string,
-   price: number,
-}
-
-function coinExchanger(value: number, priceA: number, priceB: number) {
-   const totalPrice = value * priceA
-   const priceThatCoin = totalPrice / priceB
-   return priceThatCoin
-}
+import MySelect from './MySelect';
+import { TypeCoin, TypeData } from '../types/types'
+import { coinExchanger } from '../utils/utils'
 
 const MyForm: FC = () => {
    const [data, setData] = useState<TypeData[]>([])
@@ -59,43 +43,15 @@ const MyForm: FC = () => {
                type='text'
                value={inputValue}
                onChange={(event) => setInputValue(event.target.value)} />
-            <Select
-               className={st.select}
-               onSelect={(v) => setCoinA(data?.find((c) => c.id === v) || null)}
-               placeholder="select coin"
-               optionLabelProp="label"
-               options={data.map((coin) => ({
-                  label: coin.symbol,
-                  value: coin.id,
-                  icon: coin.icon,
-               }))}
-               optionRender={(option) => (
-                  <Space>
-                     <img className={st.img} src={option.data.icon} />{option.data.label}
-                  </Space>
-               )}
-            />
+            <MySelect data={data} onSelect={(v) => setCoinA(data?.find((c) => c.id === v) || null)} />
+
             <RiBitCoinLine className={st.exchangeImg} />
+
             <Input
                className={st.input}
                value={coinA && coinB && coinExchanger((+inputValue), coinA.price, coinB.price) || ''}
             />
-            <Select
-               className={st.select}
-               onSelect={(v) => setCoinB(data?.find((c) => c.id === v) || null)}
-               placeholder="select coin"
-               optionLabelProp="label"
-               options={data.map((coin) => ({
-                  label: coin.symbol,
-                  value: coin.id,
-                  icon: coin.icon,
-               }))}
-               optionRender={(option) => (
-                  <Space>
-                     <img className={st.img} src={option.data.icon} />{option.data.label}
-                  </Space>
-               )}
-            />
+            <MySelect data={data} onSelect={(v) => setCoinB(data?.find((c) => c.id === v) || null)} />
          </Form>
       </>
    )
