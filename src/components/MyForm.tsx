@@ -5,7 +5,7 @@ import st from './MyForm.module.css'
 import axios from 'axios';
 
 type TypeData = {
-   id?: string,
+   id: string,
    icon: string,
    name: string,
    symbol: string,
@@ -25,8 +25,8 @@ function coinExchanger(value: number, priceA: number, priceB: number) {
 
 const MyForm: FC = () => {
    const [data, setData] = useState<TypeData[]>([])
-   const [coinA, setCoinA] = useState<TypeCoin>({ id: '', price: 0 })
-   const [coinB, setCoinB] = useState<TypeCoin>({ id: '', price: 0 })
+   const [coinA, setCoinA] = useState<TypeCoin | null>(null)
+   const [coinB, setCoinB] = useState<TypeCoin | null>(null)
    const [inputValue, setInputValue] = useState('')
 
    useEffect(() => {
@@ -50,8 +50,6 @@ const MyForm: FC = () => {
          });
    }, [])
 
-   console.log(coinA)
-
    return (
       <>
          <Form className={st.formBox}>
@@ -63,7 +61,7 @@ const MyForm: FC = () => {
                onChange={(event) => setInputValue(event.target.value)} />
             <Select
                className={st.select}
-               onSelect={(v) => setCoinA(data.find((c) => c.id === v))}
+               onSelect={(v) => setCoinA(data?.find((c) => c.id === v) || null)}
                placeholder="select coin"
                optionLabelProp="label"
                options={data.map((coin) => ({
@@ -80,11 +78,11 @@ const MyForm: FC = () => {
             <RiBitCoinLine className={st.exchangeImg} />
             <Input
                className={st.input}
-               value={coinExchanger((+inputValue), coinA.price, coinB?.price)}
+               value={coinA && coinB && coinExchanger((+inputValue), coinA.price, coinB?.price) || ''}
             />
             <Select
                className={st.select}
-               onSelect={(v) => setCoinB(data.find((c) => c.id === v))}
+               onSelect={(v) => setCoinB(data?.find((c) => c.id === v) || null)}
                placeholder="select coin"
                optionLabelProp="label"
                options={data.map((coin) => ({
