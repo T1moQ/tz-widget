@@ -1,8 +1,8 @@
+import { useState, useEffect, FC } from 'react'
 import { Select, Space, Form, Input } from 'antd';
 import { RiBitCoinLine } from "react-icons/ri";
-import { useState, useEffect, FC } from 'react'
-import st from './MyForm.module.css'
 import axios from 'axios';
+import st from './MyForm.module.css'
 
 type TypeData = {
    id: string,
@@ -78,7 +78,7 @@ const MyForm: FC = () => {
             <RiBitCoinLine className={st.exchangeImg} />
             <Input
                className={st.input}
-               value={coinA && coinB && coinExchanger((+inputValue), coinA.price, coinB?.price) || ''}
+               value={coinA && coinB && coinExchanger((+inputValue), coinA.price, coinB.price) || ''}
             />
             <Select
                className={st.select}
@@ -91,7 +91,7 @@ const MyForm: FC = () => {
                   icon: coin.icon,
                }))}
                optionRender={(option) => (
-                  <Space className={st.space}>
+                  <Space>
                      <img className={st.img} src={option.data.icon} />{option.data.label}
                   </Space>
                )}
