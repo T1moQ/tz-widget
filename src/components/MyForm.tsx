@@ -1,41 +1,23 @@
-import { useState, useEffect, FC } from 'react'
+import { useState, FC } from 'react'
 import { Form, Input } from 'antd';
 import { RiBitCoinLine } from "react-icons/ri";
-import axios from 'axios';
 import st from './MyForm.module.css'
 import MySelect from './MySelect';
-import { TypeCoin, TypeData } from '../types/types'
+import { TypeCoin } from '../types/types'
 import { coinExchanger } from '../utils/utils'
+import { useGetBTC } from '../api/useGetBTC'
 
 const MyForm: FC = () => {
-   const [data, setData] = useState<TypeData[]>([])
    const [coinA, setCoinA] = useState<TypeCoin | null>(null)
    const [coinB, setCoinB] = useState<TypeCoin | null>(null)
    const [inputValue, setInputValue] = useState('')
 
-   useEffect(() => {
-      const AXIoptions = {
-         method: 'GET',
-         url: 'https://openapiv1.coinstats.app/coins',
-         params: { limit: '3' },
-         headers: {
-            accept: 'application/json',
-            'X-API-KEY': '42r9S30ZFqxPxK7h1dHi/bZSFmIE8VXs4a5oqgZAxI4='
-         }
-      };
-
-      axios
-         .request(AXIoptions)
-         .then(function (response) {
-            setData(response.data.result);
-         })
-         .catch(function (error) {
-            console.error(error);
-         });
-   }, [])
+   const { data, isError, isLoading } = useGetBTC()
 
    return (
       <>
+         {isLoading && <div>Loading...</div>}
+         {isError && <div>Error! =( </div>}
          <Form className={st.formBox}>
             <Input
                className={st.input}
